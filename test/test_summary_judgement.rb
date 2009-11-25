@@ -13,8 +13,8 @@ class TestSummaryJudgement < Test::Unit::TestCase
     assert_equal 2, @bookshelf.books.length
   end
   
-  def test_leaf_summary_definition
-    assert_equal SummaryJudgement::Summary, @neuromancer.summary.class
-    assert_equal 'novel', @neuromancer.summary.term
+  def test_summary_definition
+    assert_equal SummaryJudgement::Summary, Book.summary.class
+    assert_equal Proc, Book.summary.term.class
   end
 end

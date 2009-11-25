@@ -2,9 +2,12 @@ require 'active_support/core_ext'
 
 module SummaryJudgement
   def summarize(&blk)
-    cattr_accessor :summary
-    self.summary = Summary.new(self, &blk)
+    @summary = Summary.new(self, &blk)
     send :include, InstanceMethods
+  end
+  
+  def summary
+    @summary
   end
 end
 
