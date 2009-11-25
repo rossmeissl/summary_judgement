@@ -1,4 +1,4 @@
-require 'active_support/core_ext'
+require 'active_support'
 
 module SummaryJudgement
   def summarize(&blk)
@@ -14,3 +14,4 @@ end
 require 'summary_judgement/summary'
 require 'summary_judgement/descriptor'
 require 'summary_judgement/instance_methods'
+require 'summary_judgement/core_extensions'
