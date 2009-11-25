@@ -23,7 +23,7 @@ class Book
     has.adjective :color
     has.adjective 'illustrated', :if => :pictures
     has.adjective lambda { "#{length_in_pages}pp" }, :if => :length_in_pages
-    has.term lambda { book_type }
+    has.identity lambda { book_type }
     has.modifier lambda { "by #{author}" }, :if => :author
   end
 end

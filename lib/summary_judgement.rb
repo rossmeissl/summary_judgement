@@ -1,12 +1,10 @@
+require 'active_support/core_ext'
+
 module SummaryJudgement
   def summarize(&blk)
-    #raise 'You can only summarize a class once' if defined? @@summary
-    @@summary = yield Summary.new(self)
+    cattr_accessor :summary
+    self.summary = Summary.new(self, &blk)
     send :include, InstanceMethods
-  end
-  
-  def summary
-    @@summary
   end
 end
 

@@ -1,16 +1,17 @@
 module SummaryJudgement
   class Summary
-    attr_reader :term
+    attr_reader :term, :adjectives, :modifiers, :children, :base
     
-    def initialize(base)
+    def initialize(base, &blk)
       @base = base
       @term = base.to_s
       @adjectives = []
       @modifiers = []
       @children = []
+      yield self
     end
     
-    def term(t)
+    def identity(t)
       @term = t
     end
     
