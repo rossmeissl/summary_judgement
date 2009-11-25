@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "summary_judgement"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Dynamic summaries of rich object hierarchies}
+    gem.description = %Q{Constructs adaptive summaries of object hierarchies based on ActiveRecord associations and other simple relationship structures}
     gem.email = "andy@rossmeissl.net"
     gem.homepage = "http://github.com/rossmeissl/summary_judgement"
     gem.authors = ["Andy Rossmeissl"]
