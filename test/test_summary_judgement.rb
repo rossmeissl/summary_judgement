@@ -16,5 +16,16 @@ class TestSummaryJudgement < Test::Unit::TestCase
   def test_summary_definition
     assert_equal SummaryJudgement::Summary, Book.summary.class
     assert_equal Proc, Book.summary.term.class
+    assert_equal [SummaryJudgement::Descriptor], Book.summary.adjectives.collect { |a| a.class }.uniq
   end
+  
+  def test_leaf_summary_rendering
+    assert_equal 'novel', @neuromancer.term
+    assert @where_the_wild_things_are.adjectives.include?('illustrated')
+  end
+  
+  def test_association
+    assert_equal 2, @bookshelf.children.length
+  end
+  
 end

@@ -1,13 +1,13 @@
 module SummaryJudgement
   class Summary
-    attr_reader :term, :adjectives, :modifiers, :children, :base
+    attr_reader :term, :adjectives, :modifiers, :subordinates, :base
     
     def initialize(base, &blk)
       @base = base
       @term = base.to_s
       @adjectives = []
       @modifiers = []
-      @children = []
+      @subordinates = []
       yield self
     end
     
@@ -26,21 +26,21 @@ module SummaryJudgement
     def children(collection_or_symbol)
       case collection_or_symbol
       when Symbol
-        lambda { send :collection_or_symbol }
+        @subordinates = lambda { |parent| parent.send collection_or_symbol }
       else
-        @children = collection_or_symbol
+        @subordinates = collection_or_symbol
       end
     end
     
     class << self
-      def render(obj)
+      def render(obj, context)
         case obj
         when String
           obj
         when Symbol
-          send obj
+          context.send obj
         when Proc
-          obj.call
+          obj.call context
         end
       end
     end

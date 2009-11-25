@@ -1,6 +1,6 @@
 module SummaryJudgement
   class Descriptor
-    attr_reader :phrase
+    attr_reader :phrase, :condition
     
     def initialize(phrase, options = {})
       @phrase = phrase

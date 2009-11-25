@@ -22,9 +22,9 @@ class Book
   summarize do |has|
     has.adjective :color
     has.adjective 'illustrated', :if => :pictures
-    has.adjective lambda { "#{length_in_pages}pp" }, :if => :length_in_pages
-    has.identity lambda { book_type }
-    has.modifier lambda { "by #{author}" }, :if => :author
+    has.adjective lambda { |book| "#{book.length_in_pages}pp" }, :if => :length_in_pages
+    has.identity lambda { |book| book.book_type }
+    has.modifier lambda { |book| "by #{book.author}" }, :if => :author
   end
 end
 
