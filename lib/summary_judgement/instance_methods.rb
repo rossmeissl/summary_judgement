@@ -59,7 +59,7 @@ module SummaryJudgement
       if verbosity
         leaves = canopy
         first_leaf = leaves.shift
-        result << leaves.map { |leaf| leaf.summary :capitalize_indefinite_article => false }.unshift(first_leaf.summary).to_sentence
+        result << leaves.map { |leaf| leaf.summary :capitalize_indefinite_article => false }.unshift(first_leaf.summary(:capitalize_indefinite_article => !conjugation)).to_sentence
       else
         result << canopy.map {|c| c.class}.uniq.map do |k|
           siblings = canopy.select {|c| c.is_a? k}

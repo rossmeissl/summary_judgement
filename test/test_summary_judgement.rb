@@ -56,9 +56,18 @@ class TestSummaryJudgement < Test::Unit::TestCase
     assert_equal 'A novel by William Gibson and an illustrated childrens book by Maurice Sendak', @bookshelf.summary(:verbose => true)
   end
   
+  def test_conjugated_verbose_summaries
+    assert_equal 'I have a novel by William Gibson and an illustrated childrens book by Maurice Sendak', @bookshelf.summary(:verbose => true, :conjugate => :first, :subject => true)
+  end
+  
   def test_summaries_with_adaptive_verbosity
     assert_equal '2 books', @bookshelf.summary(:verbose => :small?)
     assert_equal 'A novel by William Gibson', @bedstand.summary(:verbose => :small?)
+  end
+  
+  def test_conjugated_summaries_with_adaptive_verbosity
+    assert_equal 'They have 2 books', @bookshelf.summary(:verbose => :small?, :conjugate => :third, :plurality => :plural, :subject => true)
+    assert_equal 'They have a novel by William Gibson', @bedstand.summary(:verbose => :small?, :conjugate => :third, :plurality => :plural, :subject => true)
   end
   
 end
