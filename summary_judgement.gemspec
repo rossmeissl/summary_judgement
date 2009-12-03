@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{summary_judgement}
-  s.version = "1.0.0"
+  s.version = "1.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Andy Rossmeissl"]
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "lib/summary_judgement/descriptor.rb",
      "lib/summary_judgement/instance_methods.rb",
      "lib/summary_judgement/summary.rb",
+     "summary_judgement.gemspec",
      "test/helper.rb",
      "test/test_summary_judgement.rb"
   ]
