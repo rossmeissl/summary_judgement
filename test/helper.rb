@@ -39,3 +39,15 @@ class Library
     has.children :books
   end
 end
+
+class Catalog
+  attr_reader :libraries
+  def initialize(*libraries)
+    @libraries = libraries
+  end
+  
+  extend SummaryJudgement
+  summarize do |has|
+    has.children :libraries
+  end
+end

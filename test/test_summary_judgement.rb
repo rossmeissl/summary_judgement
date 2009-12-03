@@ -6,6 +6,7 @@ class TestSummaryJudgement < Test::Unit::TestCase
     @where_the_wild_things_are = Book.new :book_type => 'childrens book', :author => 'Maurice Sendak', :pictures => true
     @bookshelf = Library.new @neuromancer, @where_the_wild_things_are
     @toilet = Library.new @neuromancer
+    @catalog = Catalog.new @bookshelf, @toilet
   end
   
   def test_setup
@@ -33,6 +34,7 @@ class TestSummaryJudgement < Test::Unit::TestCase
     assert_equal 'An illustrated childrens book by Maurice Sendak', @where_the_wild_things_are.summary
     assert_equal '2 books', @bookshelf.summary
     assert_equal '1 book', @toilet.summary
+    assert_equal '2 libraries', @catalog.summary
   end
   
 end
