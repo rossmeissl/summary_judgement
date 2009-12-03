@@ -4,7 +4,7 @@ require 'verbs'
 module SummaryJudgement
   def self.extended(base)
     def base.inherited(subclass)
-      subclass.initialize_summary Summary.new(subclass, @summary.to_hash)
+      subclass.initialize_summary @summary.dup(subclass)
     end
   end
   

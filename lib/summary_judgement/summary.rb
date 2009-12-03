@@ -47,6 +47,10 @@ module SummaryJudgement
       { :adjectives => @adjectives.dup, :modifiers => @modifiers.dup, :subordinates => @subordinates.dup, :term => @term.dup }
     end
     
+    def dup(base)
+      self.class.new base, to_hash
+    end
+    
     class << self
       def render(obj, context)
         case obj
