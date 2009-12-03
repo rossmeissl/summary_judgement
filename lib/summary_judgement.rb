@@ -4,15 +4,14 @@ require 'verbs'
 module SummaryJudgement
   def self.extended(base)
     base.initialize_summary Summary.new(base)
+    base.send :include, InstanceMethods
     def base.inherited(subclass)
       subclass.initialize_summary @summary.dup(subclass)
     end
   end
   
   def summarize(&blk)
-    @summary ||= Summary.new(self)
     @summary.define(&blk)
-    send :include, InstanceMethods
   end
   
   def summary
