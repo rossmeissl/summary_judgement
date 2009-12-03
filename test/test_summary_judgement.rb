@@ -13,12 +13,14 @@ class TestSummaryJudgement < Test::Unit::TestCase
     assert_equal Book, @neuromancer.class
     assert_equal Library, @bookshelf.class
     assert_equal 2, @bookshelf.books.length
+    assert_equal :accept, Verbs::Conjugator.conjugate(:accept, :tense => :present, :person => :first, :plurality => :singular) 
   end
   
   def test_summary_definition
     assert_equal SummaryJudgement::Summary, Book.summary.class
     assert_equal Proc, Book.summary.term.class
     assert_equal [SummaryJudgement::Descriptor], Book.summary.adjectives.collect { |a| a.class }.uniq
+    assert_equal :have, Library.summary.predicate
   end
   
   def test_leaf_summary_rendering
@@ -35,6 +37,11 @@ class TestSummaryJudgement < Test::Unit::TestCase
     assert_equal '2 books', @bookshelf.summary
     assert_equal '1 book', @toilet.summary
     assert_equal '2 libraries', @catalog.summary
+  end
+  
+  def test_conjugated_summary
+    assert_equal 'Has 2 books', @bookshelf.summary(:conjugate => true, :subject => false)
+    assert_equal 'You have 2 books', @bookshelf.summary(:conjugate => :second, :subject => true)
   end
   
 end

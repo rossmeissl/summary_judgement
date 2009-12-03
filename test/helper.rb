@@ -37,6 +37,7 @@ class Library
   extend SummaryJudgement
   summarize do |has|
     has.children :books
+    has.verb :have
   end
 end
 

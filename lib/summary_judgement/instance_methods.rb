@@ -2,7 +2,22 @@ module SummaryJudgement
   module InstanceMethods
     def summary(options = {})
       if children
-        children.map {|c| c.class}.uniq.map do |k|
+        result = ''
+        if conjugation = options.delete(:conjugate)
+          options.reverse_merge! :tense => :present, :plurality => :singular
+          case conjugation
+          when String
+            options[:person] ||= :third
+            options[:subject] ||= conjugation
+          when Symbol
+            options[:person] ||= conjugation
+          when TrueClass
+            options[:person] ||= :third
+          end
+          result << Verbs::Conjugator.conjugate(self.class.summary.predicate, options.slice(:person, :subject, :tense, :plurality)).to_s.humanize
+          result << ' '
+        end
+        result << children.map {|c| c.class}.uniq.map do |k|
           siblings = children.select {|c| c.is_a? k}
           siblings.length.to_s + ' ' + k.to_s.underscore.humanize.downcase.pluralize_on(siblings.length)
         end.to_sentence

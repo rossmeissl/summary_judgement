@@ -32,6 +32,14 @@ module SummaryJudgement
       end
     end
     
+    def verb(infinitive)
+      @verb = infinitive
+    end
+    
+    def predicate
+      @verb
+    end
+    
     class << self
       def render(obj, context)
         case obj

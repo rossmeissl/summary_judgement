@@ -1,4 +1,5 @@
 require 'active_support'
+require 'verbs'
 
 module SummaryJudgement
   def summarize(&blk)
