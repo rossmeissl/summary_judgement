@@ -1,6 +1,6 @@
 module SummaryJudgement
   class Summary
-    attr_reader :term, :adjectives, :modifiers, :subordinates, :base
+    attr_reader :term, :adjectives, :modifiers, :subordinates, :base, :setup
     
     def initialize(base, options = {}, &blk)
       @base = base
@@ -26,12 +26,14 @@ module SummaryJudgement
       @modifiers << SummaryJudgement::Descriptor.new(m, options)
     end
     
-    def children(collection_or_symbol)
-      case collection_or_symbol
-      when Symbol
-        @subordinates << lambda { |parent| parent.send collection_or_symbol }
-      else
-        @subordinates << collection_or_symbol
+    def children(*collections_or_symbols)
+      collections_or_symbols.each do |collection_or_symbol|
+        case collection_or_symbol
+        when Symbol
+          @subordinates << lambda { |parent| parent.send collection_or_symbol }
+        else
+          @subordinates << collection_or_symbol
+        end
       end
     end
     
@@ -44,11 +46,15 @@ module SummaryJudgement
     end
     
     def to_hash
-      { :adjectives => @adjectives.dup, :modifiers => @modifiers.dup, :subordinates => @subordinates.dup, :term => @term.dup }
+      { :adjectives => @adjectives.dup, :modifiers => @modifiers.dup, :subordinates => @subordinates.dup, :term => @term.dup, :setup => @setup }
     end
     
     def dup(base)
       self.class.new base, to_hash
+    end
+    
+    def delay(blk)
+      @setup = blk
     end
     
     class << self

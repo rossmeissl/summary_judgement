@@ -68,8 +68,7 @@ class Library
   
   extend SummaryJudgement
   summarize do |has|
-    has.children :books
-    has.children :magazines
+    has.children :books, :magazines
     has.verb :have
   end
 end
@@ -94,5 +93,19 @@ end
 class Librarian < Employee
   summarize do |has|
     has.identity 'bookworm'
+  end
+end
+
+class Customer
+  extend SummaryJudgement
+  
+  summarize :lazy => true do |has|
+    has.identity label
+  end
+end
+
+class Enthusiast < Customer
+  def label
+    'avid reader'
   end
 end

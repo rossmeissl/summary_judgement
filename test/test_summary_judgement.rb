@@ -11,6 +11,7 @@ class TestSummaryJudgement < Test::Unit::TestCase
     @bedstand = Library.new @neuromancer
     @catalog = Catalog.new @bookshelf, @toilet
     @anne = Librarian.new
+    @seamus = Enthusiast.new
   end
   
   def test_setup
@@ -75,5 +76,9 @@ class TestSummaryJudgement < Test::Unit::TestCase
   def test_inheritance
     assert_equal 'A hardcover novel by William Gibson', @first_edition_neuromancer.summary
     assert_equal 'A bookworm', @anne.summary
-  end  
+  end
+  
+  def test_lazily_inherited_summary_definitions
+    assert_equal 'An enthusiast', @seamus.summary
+  end
 end
