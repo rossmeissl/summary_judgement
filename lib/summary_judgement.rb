@@ -3,6 +3,7 @@ require 'verbs'
 
 module SummaryJudgement
   def self.extended(base)
+    base.initialize_summary Summary.new(base)
     def base.inherited(subclass)
       subclass.initialize_summary @summary.dup(subclass)
     end

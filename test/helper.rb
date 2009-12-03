@@ -86,3 +86,13 @@ class Catalog
     has.verb :contain
   end
 end
+
+class Employee
+  extend SummaryJudgement
+end
+
+class Librarian < Employee
+  summarize do |has|
+    has.identity 'bookworm'
+  end
+end
