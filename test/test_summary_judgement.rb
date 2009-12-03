@@ -24,6 +24,10 @@ class TestSummaryJudgement < Test::Unit::TestCase
     assert_equal :have, Library.summary.predicate
   end
   
+  def test_foliage
+    assert_equal 3, @catalog.canopy.length
+  end
+  
   def test_leaf_summary_rendering
     assert_equal 'novel', @neuromancer.term
     assert @where_the_wild_things_are.adjectives.include?('illustrated')
@@ -37,7 +41,7 @@ class TestSummaryJudgement < Test::Unit::TestCase
     assert_equal 'An illustrated childrens book by Maurice Sendak', @where_the_wild_things_are.summary
     assert_equal '2 books', @bookshelf.summary
     assert_equal '1 book and 1 magazine', @toilet.summary
-    assert_equal '2 libraries', @catalog.summary
+    assert_equal '2 books and 1 magazine', @catalog.summary
   end
   
   def test_conjugated_summary
