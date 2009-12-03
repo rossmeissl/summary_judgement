@@ -47,6 +47,7 @@ class TestSummaryJudgement < Test::Unit::TestCase
   def test_conjugated_summary
     assert_equal 'Has 2 books', @bookshelf.summary(:conjugate => true, :subject => false)
     assert_equal 'You have 2 books', @bookshelf.summary(:conjugate => :second, :subject => true)
+    assert_equal 'The catalog contains 2 books and 1 magazine', @catalog.summary(:conjugate => :third, :subject => 'The catalog')
   end
   
 end

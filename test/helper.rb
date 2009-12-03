@@ -72,5 +72,6 @@ class Catalog
   extend SummaryJudgement
   summarize do |has|
     has.children :libraries
+    has.verb :contain
   end
 end
