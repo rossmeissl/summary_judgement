@@ -55,6 +55,10 @@ class Library
     @magazines = volumes.select {|v| v.is_a? Magazine}
   end
   
+  def small?
+    @books.length + @magazines.length < 2
+  end
+  
   extend SummaryJudgement
   summarize do |has|
     has.children :books
