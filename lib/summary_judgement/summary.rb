@@ -8,6 +8,9 @@ module SummaryJudgement
       @adjectives = []
       @modifiers = []
       @subordinates = []
+    end
+    
+    def define(&blk)
       yield self
     end
     

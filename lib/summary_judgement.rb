@@ -3,7 +3,8 @@ require 'verbs'
 
 module SummaryJudgement
   def summarize(&blk)
-    @summary = Summary.new(self, &blk)
+    @summary ||= Summary.new(self)
+    @summary.define(&blk)
     send :include, InstanceMethods
   end
   

@@ -24,6 +24,9 @@ class Book
     has.adjective 'illustrated', :if => :pictures
     has.adjective lambda { |book| "#{book.length_in_pages}pp" }, :if => :length_in_pages
     has.identity lambda { |book| book.book_type }
+  end
+  
+  summarize do |has|
     has.modifier lambda { |book| "by #{book.author}" }, :if => :author
   end
 end

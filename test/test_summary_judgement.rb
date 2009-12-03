@@ -3,6 +3,7 @@ require 'helper'
 class TestSummaryJudgement < Test::Unit::TestCase
   def setup
     @neuromancer = Book.new :book_type => 'novel', :author => 'William Gibson'
+    #@first_edition_neuromancer = Hardcover.new :book_type => 'novel', :author => 'William Gibson'
     @where_the_wild_things_are = Book.new :book_type => 'childrens book', :author => 'Maurice Sendak', :pictures => true
     @current_economist = Magazine.new :year => 2009, :month => "December"
     @bookshelf = Library.new @neuromancer, @where_the_wild_things_are
@@ -70,4 +71,7 @@ class TestSummaryJudgement < Test::Unit::TestCase
     assert_equal 'They have a novel by William Gibson', @bedstand.summary(:verbose => :small?, :conjugate => :third, :plurality => :plural, :subject => true)
   end
   
+#  def test_inheritance
+#    assert_equal 'A hardcover novel by William Gibson', @first_edition_neuromancer.summary
+#  end  
 end
