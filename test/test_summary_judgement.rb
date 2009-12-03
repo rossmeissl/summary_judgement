@@ -51,4 +51,8 @@ class TestSummaryJudgement < Test::Unit::TestCase
     assert_equal 'The catalog contains 2 books and 1 magazine', @catalog.summary(:conjugate => :third, :subject => 'The catalog')
   end
   
+  def test_deep_summaries
+    assert_equal 'A novel by William Gibson and an illustrated childrens book by Maurice Sendak', @bookshelf.summary(:verbose => true)
+  end
+  
 end

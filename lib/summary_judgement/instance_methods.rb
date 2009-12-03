@@ -4,7 +4,7 @@ module SummaryJudgement
       if children
         summarize_as_branch(options)
       elsif term
-        summarize_as_leaf
+        summarize_as_leaf(options)
       end
     end
     
@@ -31,8 +31,9 @@ module SummaryJudgement
     
     private
     
-    def summarize_as_leaf
-      "#{adjectives.join(' ').strip.with_indefinite_article(true)} #{term} #{modifiers.join(' ')}".strip
+    def summarize_as_leaf(options = {})
+      options.reverse_merge! :capitalize_indefinite_article => true
+      "#{adjectives.join(' ').strip.with_indefinite_article(options[:capitalize_indefinite_article])} #{term} #{modifiers.join(' ')}".strip
     end
     
     def summarize_as_branch(options = {})
@@ -51,10 +52,20 @@ module SummaryJudgement
         result << Verbs::Conjugator.conjugate(self.class.summary.predicate, options.slice(:person, :subject, :tense, :plurality)).to_s.humanize
         result << ' '
       end
-      result << canopy.map {|c| c.class}.uniq.map do |k|
-        siblings = canopy.select {|c| c.is_a? k}
-        siblings.length.to_s + ' ' + k.to_s.underscore.humanize.downcase.pluralize_on(siblings.length)
-      end.to_sentence
+      
+      verbosity = options.delete(:verbose)
+      verbosity = send(verbosity) if verbosity.is_a?(Symbol)
+      
+      if verbosity
+        leaves = canopy
+        first_leaf = leaves.shift
+        result << leaves.map { |leaf| leaf.summary :capitalize_indefinite_article => false }.unshift(first_leaf.summary).to_sentence
+      else
+        result << canopy.map {|c| c.class}.uniq.map do |k|
+          siblings = canopy.select {|c| c.is_a? k}
+          siblings.length.to_s + ' ' + k.to_s.underscore.humanize.downcase.pluralize_on(siblings.length)
+        end.to_sentence
+      end
     end
   end
 end
