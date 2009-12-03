@@ -2,12 +2,12 @@ module SummaryJudgement
   class Summary
     attr_reader :term, :adjectives, :modifiers, :subordinates, :base
     
-    def initialize(base, &blk)
+    def initialize(base, options = {}, &blk)
       @base = base
-      @term = base.to_s
-      @adjectives = []
-      @modifiers = []
-      @subordinates = []
+      @term = options[:term] || base.to_s
+      @adjectives = options[:adjectives] || []
+      @modifiers = options[:modifiers] || []
+      @subordinates = options[:subordinates] || []
     end
     
     def define(&blk)
@@ -41,6 +41,10 @@ module SummaryJudgement
     
     def predicate
       @verb
+    end
+    
+    def to_hash
+      { :adjectives => @adjectives.dup, :modifiers => @modifiers.dup, :subordinates => @subordinates.dup, :term => @term.dup }
     end
     
     class << self

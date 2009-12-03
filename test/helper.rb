@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'test/unit'
+require 'ruby-debug'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
@@ -24,10 +25,13 @@ class Book
     has.adjective 'illustrated', :if => :pictures
     has.adjective lambda { |book| "#{book.length_in_pages}pp" }, :if => :length_in_pages
     has.identity lambda { |book| book.book_type }
-  end
-  
-  summarize do |has|
     has.modifier lambda { |book| "by #{book.author}" }, :if => :author
+  end
+end
+
+class Hardcover < Book
+  summarize do |has|
+    has.adjective 'hardcover'
   end
 end
 
