@@ -4,7 +4,7 @@ class String
   end
 
   def with_indefinite_article(upcase = false)
-    "#{upcase ? indefinite_article.humanize : indefinite_article} #{self}"
+    "#{upcase ? indefinite_article.humanize : indefinite_article}#{ ' ' unless self.blank? }#{self}"
   end
   
   def pluralize_on(qty)

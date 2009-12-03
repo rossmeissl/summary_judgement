@@ -42,6 +42,7 @@ class TestSummaryJudgement < Test::Unit::TestCase
     assert_equal '2 books', @bookshelf.summary
     assert_equal '1 book and 1 magazine', @toilet.summary
     assert_equal '2 books and 1 magazine', @catalog.summary
+    assert_equal 'A novel by William Gibson', @neuromancer.summary
   end
   
   def test_conjugated_summary
