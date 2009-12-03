@@ -26,9 +26,9 @@ module SummaryJudgement
     def children(collection_or_symbol)
       case collection_or_symbol
       when Symbol
-        @subordinates = lambda { |parent| parent.send collection_or_symbol }
+        @subordinates << lambda { |parent| parent.send collection_or_symbol }
       else
-        @subordinates = collection_or_symbol
+        @subordinates << collection_or_symbol
       end
     end
     
@@ -43,6 +43,8 @@ module SummaryJudgement
     class << self
       def render(obj, context)
         case obj
+        when Array
+          obj.empty? ? nil : obj.map {|o| render o, context}
         when String
           obj
         when Symbol

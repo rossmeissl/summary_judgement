@@ -28,15 +28,37 @@ class Book
   end
 end
 
+class Magazine
+  attr_reader :length_in_pages, :year, :month
+  def initialize(options = {})
+    @length_in_pages = options[:length_in_pages]
+    @year = options[:year]
+    @month = options[:month]
+  end
+  
+  def date
+    "#{month} #{year}".strip
+  end
+  
+  extend SummaryJudgement
+  summarize do |has|
+    has.adjective lambda { |magazine| "#{magazine.length_in_pages}pp" }, :if => :length_in_pages
+    has.identity 'magazine issue'
+    has.modifier lambda { |magazine| "from #{magazine.date}" }, :if => :date
+  end
+end
+
 class Library
-  attr_reader :books
+  attr_reader :books, :magazines
   def initialize(*volumes)
-    @books = volumes
+    @books = volumes.select {|v| v.is_a? Book}
+    @magazines = volumes.select {|v| v.is_a? Magazine}
   end
   
   extend SummaryJudgement
   summarize do |has|
     has.children :books
+    has.children :magazines
     has.verb :have
   end
 end

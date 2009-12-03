@@ -17,8 +17,8 @@ module SummaryJudgement
           result << Verbs::Conjugator.conjugate(self.class.summary.predicate, options.slice(:person, :subject, :tense, :plurality)).to_s.humanize
           result << ' '
         end
-        result << children.map {|c| c.class}.uniq.map do |k|
-          siblings = children.select {|c| c.is_a? k}
+        result << children.flatten.map {|c| c.class}.uniq.map do |k|
+          siblings = children.flatten.select {|c| c.is_a? k}
           siblings.length.to_s + ' ' + k.to_s.underscore.humanize.downcase.pluralize_on(siblings.length)
         end.to_sentence
       elsif term
