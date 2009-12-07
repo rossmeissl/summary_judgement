@@ -1,6 +1,7 @@
 class String
   def indefinite_article
-    %w(a e i o u).include?(first.downcase) ? 'an' : 'a'
+    %w(a e i o u).include?(first.downcase) &&
+      !::String::WORDS_WITH_INITIAL_VOWELS_THAT_ACT_LIKE_WORDS_WITH_INITIAL_CONSONANTS.include?(self) ? 'an' : 'a'
   end
 
   def with_indefinite_article(upcase = false)
@@ -10,6 +11,8 @@ class String
   def pluralize_on(qty)
     qty.is_a?(Numeric) and qty > 1 ? pluralize : self
   end
+  
+  WORDS_WITH_INITIAL_VOWELS_THAT_ACT_LIKE_WORDS_WITH_INITIAL_CONSONANTS = %w(one)
 end
 
 class Object
