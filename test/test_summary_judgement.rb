@@ -18,7 +18,8 @@ class TestSummaryJudgement < Test::Unit::TestCase
     assert_equal Book, @neuromancer.class
     assert_equal Library, @bookshelf.class
     assert_equal 2, @bookshelf.books.length
-    assert_equal :accept, Verbs::Conjugator.conjugate(:accept, :tense => :present, :person => :first, :plurality => :singular) 
+    assert_equal :accept, Verbs::Conjugator.conjugate(:accept, :tense => :present, :person => :first, :plurality => :singular)
+    assert_equal 'a', 'one'.indefinite_article
   end
   
   def test_summary_definition

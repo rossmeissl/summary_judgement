@@ -1,7 +1,12 @@
 class String
   def indefinite_article
-    %w(a e i o u).include?(first.downcase) &&
-      !::String::WORDS_WITH_INITIAL_VOWELS_THAT_ACT_LIKE_WORDS_WITH_INITIAL_CONSONANTS.include?(self.sub('-', ' ').split(' ').first.downcase) ? 'an' : 'a'
+    if WORDS_WITH_INITIAL_VOWELS_THAT_ACT_LIKE_WORDS_WITH_INITIAL_CONSONANTS.include? first_word.first_term
+      INDEFINITE_ARTICLES[:consonant]
+    elsif VOWELS.include? first.downcase
+      INDEFINITE_ARTICLES[:vowel]
+    else
+      INDEFINITE_ARTICLES[:consonant]
+    end
   end
 
   def with_indefinite_article(upcase = false)
@@ -12,7 +17,17 @@ class String
     qty.is_a?(Numeric) and qty > 1 ? pluralize : self
   end
   
+  def first_word
+    split(' ').first
+  end
+  
+  def first_term
+    split('-').first
+  end
+  
   WORDS_WITH_INITIAL_VOWELS_THAT_ACT_LIKE_WORDS_WITH_INITIAL_CONSONANTS = %w(one)
+  INDEFINITE_ARTICLES = { :vowel => 'an', :consonant => 'a'}
+  VOWELS = %w(a e i o u)
 end
 
 class Object
