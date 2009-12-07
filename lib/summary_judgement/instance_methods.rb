@@ -21,7 +21,9 @@ module SummaryJudgement
     end
     
     def children
-      self.class.summary.class.render self.class.summary.subordinates, self
+      subordinates = self.class.summary.class.render(self.class.summary.subordinates, self)
+      subordinates.flatten! if subordinates.respond_to? :flatten!
+      subordinates
     end
     
     def canopy
