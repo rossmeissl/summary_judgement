@@ -11,3 +11,11 @@ class String
     qty.is_a?(Numeric) and qty > 1 ? pluralize : self
   end
 end
+
+class Object
+  def recursive_send(*methods)
+    return self if methods.empty?
+    m = methods.shift
+    send(m).recursive_send(*methods)
+  end
+end

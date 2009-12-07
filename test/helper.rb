@@ -100,12 +100,12 @@ class Customer
   extend SummaryJudgement
   
   summarize do |has|
-    has.identity :label
+    has.identity [:label, :downcase]
   end
 end
 
 class Enthusiast < Customer
   def label
-    'avid reader'
+    'AVID READER'
   end
 end

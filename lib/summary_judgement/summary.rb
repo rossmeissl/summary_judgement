@@ -66,7 +66,13 @@ module SummaryJudgement
       def render(obj, context)
         case obj
         when Array
-          obj.empty? ? nil : obj.map {|o| render o, context}
+          if obj.empty?
+            nil
+          elsif obj.all? { |e| e.is_a? Symbol }
+            context.recursive_send(*obj)
+          else
+            obj.empty? ? nil : obj.map {|o| render o, context}
+          end
         when String
           obj
         when Symbol

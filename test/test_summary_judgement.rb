@@ -81,4 +81,8 @@ class TestSummaryJudgement < Test::Unit::TestCase
   def test_lazily_inherited_summary_definitions
     assert_equal 'An avid reader', @seamus.summary
   end
+  
+  def test_recursive_send_core_extension
+    assert_equal 'foo bar', 'foo_bar'.recursive_send(:humanize, :downcase)
+  end
 end
