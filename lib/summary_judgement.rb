@@ -7,19 +7,11 @@ module SummaryJudgement
     base.send :include, InstanceMethods
     def base.inherited(subclass)
       subclass.initialize_summary @summary.dup(subclass)
-      if setup = subclass.summary.setup
-        setup.call subclass
-      end
     end
   end
   
-  def summarize(options = {}, &blk)
-    if options[:lazy]
-      puts 'Lazy!'
-      @summary.delay(blk)
-    else
-      @summary.define(&blk)
-    end
+  def summarize(&blk)
+    @summary.define(&blk)
   end
   
   def summary

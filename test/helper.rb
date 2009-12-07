@@ -99,8 +99,8 @@ end
 class Customer
   extend SummaryJudgement
   
-  summarize :lazy => true do |has|
-    has.identity label
+  summarize do |has|
+    has.identity :label
   end
 end
 

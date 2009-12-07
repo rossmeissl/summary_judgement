@@ -1,6 +1,6 @@
 module SummaryJudgement
   class Summary
-    attr_reader :term, :adjectives, :modifiers, :subordinates, :base, :setup
+    attr_reader :term, :adjectives, :modifiers, :subordinates, :base
     
     def initialize(base, options = {}, &blk)
       @base = base
@@ -46,15 +46,20 @@ module SummaryJudgement
     end
     
     def to_hash
-      { :adjectives => @adjectives.dup, :modifiers => @modifiers.dup, :subordinates => @subordinates.dup, :term => @term.dup, :setup => @setup }
+      [:adjectives, :modifiers, :subordinates, :term].inject({}) do |properties, property|
+        val = instance_variable_get :"@#{property}"
+        case val
+        when Symbol
+          properties[property] = val
+        else
+          properties[property] = val.dup
+        end
+        properties
+      end
     end
     
     def dup(base)
       self.class.new base, to_hash
-    end
-    
-    def delay(blk)
-      @setup = blk
     end
     
     class << self
