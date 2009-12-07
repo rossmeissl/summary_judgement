@@ -33,7 +33,7 @@ module SummaryJudgement
     
     def summarize_as_leaf(options = {})
       options.reverse_merge! :capitalize_indefinite_article => true
-      "#{adjectives.join(' ').strip.with_indefinite_article(options[:capitalize_indefinite_article])} #{term} #{modifiers.join(' ')}".strip
+      "#{adjectives.join(' ').strip.concat(' ').concat(term).strip.with_indefinite_article(options[:capitalize_indefinite_article])} #{modifiers.join(' ')}".strip
     end
     
     def summarize_as_branch(options = {})

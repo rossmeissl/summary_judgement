@@ -79,6 +79,6 @@ class TestSummaryJudgement < Test::Unit::TestCase
   end
   
   def test_lazily_inherited_summary_definitions
-    assert_equal 'An enthusiast', @seamus.summary
+    assert_equal 'An avid reader', @seamus.summary
   end
 end
