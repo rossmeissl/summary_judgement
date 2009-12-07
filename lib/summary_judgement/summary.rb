@@ -52,7 +52,7 @@ module SummaryJudgement
         when Symbol
           properties[property] = val
         else
-          properties[property] = val.dup
+          properties[property] = val.clone
         end
         properties
       end
