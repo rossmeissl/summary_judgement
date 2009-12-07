@@ -7,6 +7,7 @@ module SummaryJudgement
     base.send :include, InstanceMethods
     def base.inherited(subclass)
       subclass.initialize_summary @summary.dup(subclass)
+      super
     end
   end
   
