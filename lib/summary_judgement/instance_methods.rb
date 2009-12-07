@@ -56,7 +56,7 @@ module SummaryJudgement
       end
       
       verbosity = options.delete(:verbose)
-      verbosity = send(verbosity) if verbosity.is_a?(Symbol)
+      verbosity = self.class.summary.class.render verbosity, self
       
       if verbosity
         leaves = canopy

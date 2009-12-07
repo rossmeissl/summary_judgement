@@ -65,6 +65,8 @@ module SummaryJudgement
     class << self
       def render(obj, context)
         case obj
+        when TrueClass, FalseClass, NilClass, String
+          obj
         when Array
           if obj.empty?
             nil
@@ -73,8 +75,6 @@ module SummaryJudgement
           else
             obj.empty? ? nil : obj.map {|o| render o, context}
           end
-        when String
-          obj
         when Symbol
           context.send obj
         when Proc
