@@ -1,10 +1,10 @@
 module SummaryJudgement
   class Summary
-    attr_reader :term, :adjectives, :modifiers, :subordinates, :base
+    attr_reader :terms, :adjectives, :modifiers, :subordinates, :base
     
     def initialize(base, options = {}, &blk)
       @base = base
-      @term = options[:term] || base.to_s
+      @terms = options[:terms] || []
       @adjectives = options[:adjectives] || []
       @modifiers = options[:modifiers] || []
       @subordinates = options[:subordinates] || []
@@ -14,8 +14,8 @@ module SummaryJudgement
       yield self
     end
     
-    def identity(t = nil)
-      @term = t || @base.to_s.underscore.humanize.downcase
+    def identity(t = nil, options = {})
+      @terms << SummaryJudgement::Descriptor.new(t || @base.to_s.underscore.humanize.downcase, options)
     end
     
     def adjective(a, options = {})
@@ -46,7 +46,7 @@ module SummaryJudgement
     end
     
     def to_hash
-      [:adjectives, :modifiers, :subordinates, :term].inject({}) do |properties, property|
+      [:adjectives, :modifiers, :subordinates, :terms].inject({}) do |properties, property|
         val = instance_variable_get :"@#{property}"
         case val
         when Symbol

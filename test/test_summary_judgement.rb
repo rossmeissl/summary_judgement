@@ -24,7 +24,7 @@ class TestSummaryJudgement < Test::Unit::TestCase
   
   def test_summary_definition
     assert_equal SummaryJudgement::Summary, Book.summary.class
-    assert_equal Proc, Book.summary.term.class
+    assert_equal Proc, Book.summary.terms.first.phrase.class
     assert_equal [SummaryJudgement::Descriptor], Book.summary.adjectives.collect { |a| a.class }.uniq
     assert_equal :have, Library.summary.predicate
   end

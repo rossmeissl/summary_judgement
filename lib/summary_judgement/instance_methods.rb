@@ -9,7 +9,7 @@ module SummaryJudgement
     end
     
     def term
-      self.class.summary.class.render self.class.summary.term, self
+      self.class.summary.class.render self.class.summary.terms.find { |t| t.condition.nil? or self.class.summary.class.render(t.condition, self) }.phrase, self
     end
     
     def adjectives

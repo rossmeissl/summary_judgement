@@ -92,6 +92,7 @@ end
 
 class Librarian < Employee
   summarize do |has|
+    has.identity 'bookworm', :if => lambda { false }
     has.identity
   end
 end
