@@ -12,6 +12,7 @@ class TestSummaryJudgement < Test::Unit::TestCase
     @catalog = Catalog.new @bookshelf, @toilet
     @anne = Librarian.new
     @seamus = Enthusiast.new
+    @new_releases = Shelf.new # empty!
   end
   
   def test_setup
@@ -85,5 +86,9 @@ class TestSummaryJudgement < Test::Unit::TestCase
   
   def test_recursive_send_core_extension
     assert_equal 'foo bar', 'foo_bar'.recursive_send(:humanize, :downcase)
+  end
+  
+  def test_empty_state
+    assert_equal 'You have an empty shelf', @new_releases.summary(:conjugate => :second, :subject => true)
   end
 end

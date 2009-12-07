@@ -8,6 +8,8 @@ module SummaryJudgement
       @adjectives = options[:adjectives] || []
       @modifiers = options[:modifiers] || []
       @subordinates = options[:subordinates] || []
+      @verb = options[:verb]
+      @placeholder = options[:placeholder]
     end
     
     def define(&blk)
@@ -45,11 +47,19 @@ module SummaryJudgement
       @verb
     end
     
+    def placeholder(p)
+      @placeholder = p
+    end
+    
+    def default
+      @placeholder
+    end
+    
     def to_hash
-      [:adjectives, :modifiers, :subordinates, :terms].inject({}) do |properties, property|
+      [:adjectives, :modifiers, :subordinates, :terms, :verb, :placeholder].inject({}) do |properties, property|
         val = instance_variable_get :"@#{property}"
         case val
-        when Symbol
+        when Symbol, NilClass, TrueClass, FalseClass, Fixnum
           properties[property] = val
         else
           properties[property] = val.clone

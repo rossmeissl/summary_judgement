@@ -1,8 +1,10 @@
 module SummaryJudgement
   module InstanceMethods
     def summary(options = {})
-      if children
+      if children and !children.empty?
         summarize_as_branch(options)
+      elsif !self.class.summary.subordinates.empty?
+        summarize_as_bare_branch(options)
       elsif term
         summarize_as_leaf(options)
       end
@@ -70,5 +72,25 @@ module SummaryJudgement
         end.to_sentence
       end
     end
+
+    def summarize_as_bare_branch(options = {})
+      result = ''
+      if conjugation = options.delete(:conjugate)
+        options.reverse_merge! :tense => :present, :plurality => :singular
+        case conjugation
+        when String
+          options[:person] ||= :third
+          options[:subject] ||= conjugation
+        when Symbol
+          options[:person] ||= conjugation
+        when TrueClass
+          options[:person] ||= :third
+        end
+        result << Verbs::Conjugator.conjugate(self.class.summary.predicate, options.slice(:person, :subject, :tense, :plurality)).to_s.humanize
+        result << ' '
+      end
+      result << self.class.summary.class.render(self.class.summary.default, self).with_indefinite_article
+    end
+
   end
 end

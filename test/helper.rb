@@ -73,6 +73,12 @@ class Library
   end
 end
 
+class Shelf < Library
+  summarize do |has|
+    has.placeholder 'empty shelf'
+  end
+end
+
 class Catalog
   attr_reader :libraries
   def initialize(*libraries)
