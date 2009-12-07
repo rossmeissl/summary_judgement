@@ -53,7 +53,8 @@ module SummaryJudgement
         when TrueClass
           options[:person] ||= :third
         end
-        result << Verbs::Conjugator.conjugate(self.class.summary.predicate, options.slice(:person, :subject, :tense, :plurality)).to_s.humanize
+        result << Verbs::Conjugator.conjugate(self.class.summary.predicate, options.slice(:person, :subject, :tense, :plurality)).to_s
+        result = result.humanize unless options[:subject]
         result << ' '
       end
       
