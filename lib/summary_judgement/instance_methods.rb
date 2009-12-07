@@ -57,6 +57,7 @@ module SummaryJudgement
       
       verbosity = options.delete(:verbose)
       verbosity = self.class.summary.class.render verbosity, self
+      verbosity = canopy.length <= verbosity if verbosity.is_a? Fixnum
       
       if verbosity
         leaves = canopy

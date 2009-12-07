@@ -65,7 +65,7 @@ module SummaryJudgement
     class << self
       def render(obj, context)
         case obj
-        when TrueClass, FalseClass, NilClass, String
+        when TrueClass, FalseClass, NilClass, String, Fixnum
           obj
         when Array
           if obj.empty?
