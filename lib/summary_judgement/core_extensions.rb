@@ -1,7 +1,7 @@
 class String
   def indefinite_article
     %w(a e i o u).include?(first.downcase) &&
-      !::String::WORDS_WITH_INITIAL_VOWELS_THAT_ACT_LIKE_WORDS_WITH_INITIAL_CONSONANTS.include?(self) ? 'an' : 'a'
+      !::String::WORDS_WITH_INITIAL_VOWELS_THAT_ACT_LIKE_WORDS_WITH_INITIAL_CONSONANTS.include?(self.sub('-', ' ').split(' ').first.downcase) ? 'an' : 'a'
   end
 
   def with_indefinite_article(upcase = false)
