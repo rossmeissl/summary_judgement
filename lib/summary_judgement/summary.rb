@@ -14,8 +14,8 @@ module SummaryJudgement
       yield self
     end
     
-    def identity(t)
-      @term = t
+    def identity(t = nil)
+      @term = t || @base.to_s.underscore.humanize.downcase
     end
     
     def adjective(a, options = {})

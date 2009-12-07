@@ -92,7 +92,7 @@ end
 
 class Librarian < Employee
   summarize do |has|
-    has.identity 'bookworm'
+    has.identity
   end
 end
 

@@ -76,7 +76,7 @@ class TestSummaryJudgement < Test::Unit::TestCase
   
   def test_inheritance
     assert_equal 'A hardcover novel by William Gibson', @first_edition_neuromancer.summary
-    assert_equal 'A bookworm', @anne.summary
+    assert_equal 'A librarian', @anne.summary
   end
   
   def test_lazily_inherited_summary_definitions
