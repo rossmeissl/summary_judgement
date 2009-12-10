@@ -9,6 +9,8 @@ module SummaryJudgement
       @modifiers = options[:modifiers] || []
       @subordinates = options[:subordinates] || []
       @verb = options[:verb]
+      @aspect = options[:aspect]
+      @tense = options[:tense]
       @placeholder = options[:placeholder]
     end
     
@@ -47,6 +49,18 @@ module SummaryJudgement
       @verb
     end
     
+    def tense(t)
+      @tense = t
+    end
+    
+    def aspect(a)
+      @aspect = a
+    end
+    
+    def options_for_conjugation
+      { :tense => @tense, :aspect => @aspect }
+    end
+    
     def placeholder(p)
       @placeholder = p
     end
@@ -56,7 +70,7 @@ module SummaryJudgement
     end
     
     def to_hash
-      [:adjectives, :modifiers, :subordinates, :terms, :verb, :placeholder].inject({}) do |properties, property|
+      [:adjectives, :modifiers, :subordinates, :terms, :verb, :placeholder, :aspect, :tense].inject({}) do |properties, property|
         val = instance_variable_get :"@#{property}"
         case val
         when Symbol, NilClass, TrueClass, FalseClass, Fixnum

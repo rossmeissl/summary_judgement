@@ -42,8 +42,12 @@ module SummaryJudgement
     
     def summarize_as_branch(options = {})
       result = ''
+      leaves = canopy
+      options[:verbs] ||= :canopy   if leaves.map(&:class).uniq.all? { |k| k.summary.predicate }
+      options[:verbs] ||= :branches
+
       if conjugation = options.delete(:conjugate)
-        options.reverse_merge! :tense => :present, :plurality => :singular
+        options.reverse_merge! :plurality => :singular
         case conjugation
         when String
           options[:person] ||= :third
@@ -53,25 +57,28 @@ module SummaryJudgement
         when TrueClass
           options[:person] ||= :third
         end
-        result << Verbs::Conjugator.conjugate(self.class.summary.predicate, options.slice(:person, :subject, :tense, :plurality)).to_s
-        result = result.humanize unless options[:subject]
-        result << ' '
+        if options[:verbs] == :canopy and options[:subject]
+          result << case options[:subject]
+          when String
+            options[:subject]
+          when Symbol, TrueClass
+            Verbs::Conjugator.subject(options.slice(:person, :plurality)).humanize
+          end
+        elsif options[:verbs] == :branches
+          result << Verbs::Conjugator.conjugate(self.class.summary.predicate, options.slice(:person, :subject, :tense, :plurality, :aspect)).to_s
+          result = result.humanize unless options[:subject]
+        end
+        result << ' ' if options[:subject]
       end
+      
       
       verbosity = options.delete(:verbose)
       verbosity = self.class.summary.class.render verbosity, self
       verbosity = canopy.length <= verbosity if verbosity.is_a? Fixnum
       
-      if verbosity
-        leaves = canopy
-        first_leaf = leaves.shift
-        result << leaves.map { |leaf| leaf.summary :capitalize_indefinite_article => false }.unshift(first_leaf.summary(:capitalize_indefinite_article => !conjugation)).to_sentence
-      else
-        result << canopy.map {|c| c.class}.uniq.map do |k|
-          siblings = canopy.select {|c| c.is_a? k}
-          siblings.length.to_s + ' ' + k.to_s.underscore.humanize.downcase.pluralize_on(siblings.length)
-        end.to_sentence
-      end
+      tufts = organize_leaves(*leaves)
+      first_tuft = tufts.shift
+      result << tufts.map { |tuft| summarize_tuft(tuft, conjugation, verbosity, options) }.unshift(summarize_tuft(first_tuft, conjugation, verbosity, options.merge(:capitalize_anonymous => true))).to_sentence(:words_connector => ';', :last_word_connector => '; and ')
     end
 
     def summarize_as_bare_branch(options = {})
@@ -91,6 +98,35 @@ module SummaryJudgement
         result << ' '
       end
       result << self.class.summary.class.render(self.class.summary.default, self).with_indefinite_article
+    end
+    
+    def organize_leaves(*leaves)
+      leaves.inject(::ActiveSupport::OrderedHash.new) do |memo, leaf|
+        memo[leaf.class] ||= []
+        memo[leaf.class] << leaf
+        memo
+      end
+    end
+    
+    def summarize_tuft(tuft, conjugation, verbosity, options)
+      klass, siblings = tuft
+      tuft_summary = ''
+      if options[:verbs] == :canopy and conjugation
+        tuft_summary << Verbs::Conjugator.conjugate(klass.summary.predicate, options.slice(:person, :tense, :aspect, :plurality).reverse_merge(klass.summary.options_for_conjugation)).to_s
+        tuft_summary = tuft_summary.humanize unless options[:subject]
+        tuft_summary << ' '
+      end
+      if verbosity
+        if conjugation
+          tuft_summary << siblings.map { |leaf| leaf.summary :capitalize_indefinite_article => false }.to_sentence
+        else
+          first_sibling = siblings.shift
+          tuft_summary << siblings.map { |leaf| leaf.summary :capitalize_indefinite_article => false }.unshift(first_sibling.summary(:capitalize_indefinite_article => !options[:subject])).to_sentence
+        end
+      else
+        tuft_summary << siblings.length.to_s + ' ' + klass.to_s.underscore.humanize.downcase.pluralize_on(siblings.length)
+      end
+      tuft_summary
     end
 
   end

@@ -19,7 +19,7 @@ class TestSummaryJudgement < Test::Unit::TestCase
     assert_equal Book, @neuromancer.class
     assert_equal Library, @bookshelf.class
     assert_equal 2, @bookshelf.books.length
-    assert_equal :accept, Verbs::Conjugator.conjugate(:accept, :tense => :present, :person => :first, :plurality => :singular)
+    assert_equal 'accept', Verbs::Conjugator.conjugate(:accept, :tense => :present, :person => :first, :plurality => :singular)
     assert_equal 'a', 'one'.indefinite_article
   end
   
@@ -52,9 +52,9 @@ class TestSummaryJudgement < Test::Unit::TestCase
   end
   
   def test_conjugated_summary
-    assert_equal 'Has 2 books', @bookshelf.summary(:conjugate => true, :subject => false)
-    assert_equal 'You have 2 books', @bookshelf.summary(:conjugate => :second, :subject => true)
-    assert_equal 'The catalog contains 2 books and 1 magazine', @catalog.summary(:conjugate => :third, :subject => 'The catalog')
+    assert_equal 'Has read 2 books', @bookshelf.summary(:conjugate => true, :subject => false)
+    assert_equal 'You have 2 books', @bookshelf.summary(:conjugate => :second, :subject => true, :verbs => :branches)
+    assert_equal 'The catalog contains 2 books and 1 magazine', @catalog.summary(:conjugate => :third, :subject => 'The catalog', :verbs => :branches)
   end
   
   def test_verbose_summaries
@@ -62,7 +62,7 @@ class TestSummaryJudgement < Test::Unit::TestCase
   end
   
   def test_conjugated_verbose_summaries
-    assert_equal 'I have a novel by William Gibson and an illustrated childrens book by Maurice Sendak', @bookshelf.summary(:verbose => true, :conjugate => :first, :subject => true)
+    assert_equal 'I have read a novel by William Gibson and an illustrated childrens book by Maurice Sendak', @bookshelf.summary(:verbose => true, :conjugate => :first, :subject => true)
   end
   
   def test_summaries_with_adaptive_verbosity
@@ -71,8 +71,8 @@ class TestSummaryJudgement < Test::Unit::TestCase
   end
   
   def test_conjugated_summaries_with_adaptive_verbosity
-    assert_equal 'They have 2 books', @bookshelf.summary(:verbose => :small?, :conjugate => :third, :plurality => :plural, :subject => true)
-    assert_equal 'They have a novel by William Gibson', @bedstand.summary(:verbose => :small?, :conjugate => :third, :plurality => :plural, :subject => true)
+    assert_equal 'They have read 2 books', @bookshelf.summary(:verbose => :small?, :conjugate => :third, :plurality => :plural, :subject => true)
+    assert_equal 'They have read a novel by William Gibson', @bedstand.summary(:verbose => :small?, :conjugate => :third, :plurality => :plural, :subject => true)
   end
   
   def test_inheritance
@@ -90,5 +90,10 @@ class TestSummaryJudgement < Test::Unit::TestCase
   
   def test_empty_state
     assert_equal 'You have an empty shelf', @new_releases.summary(:conjugate => :second, :subject => true)
+  end
+  
+  def test_conjugated_summary_with_multiple_verbs
+    assert_equal 'I have read 2 books and have skimmed 1 magazine', @catalog.summary(:conjugate => :first, :subject => true, :aspect => :perfect)
+    assert_equal 'I have read a novel by William Gibson and an illustrated childrens book by Maurice Sendak and have skimmed a magazine issue from December 2009', @catalog.summary(:conjugate => :first, :subject => true, :aspect => :perfect, :verbose => true)
   end
 end
