@@ -1,7 +1,7 @@
 module SummaryJudgement
   module InstanceMethods
     def summary(options = {})
-      if children and !children.empty?
+      if children and !canopy.empty?
         summarize_as_branch(options)
       elsif !self.class.summary.subordinates.empty?
         summarize_as_bare_branch(options)
@@ -77,8 +77,8 @@ module SummaryJudgement
       verbosity = canopy.length <= verbosity if verbosity.is_a? Fixnum
       
       tufts = organize_leaves(*leaves)
+      connector = verbosity and tufts.values.any? {|t| t.length > 2} ? ';' : ','
       first_tuft = tufts.shift
-      connector = verbosity ? ';' : ','
       result << tufts.map { |tuft| summarize_tuft(tuft, conjugation, verbosity, options) }.unshift(summarize_tuft(first_tuft, conjugation, verbosity, options.merge(:capitalize_anonymous => true))).to_sentence(:words_connector => "#{connector} ", :last_word_connector => "#{connector} and ")
     end
 
@@ -118,7 +118,7 @@ module SummaryJudgement
         tuft_summary << ' '
       end
       if verbosity
-        if conjugation
+        if conjugation or !options[:capitalize_anonymous]
           tuft_summary << siblings.map { |leaf| leaf.summary :capitalize_indefinite_article => false }.to_sentence
         else
           first_sibling = siblings.shift
