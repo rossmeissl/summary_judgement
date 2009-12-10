@@ -77,7 +77,7 @@ module SummaryJudgement
       verbosity = canopy.length <= verbosity if verbosity.is_a? Fixnum
       
       tufts = organize_leaves(*leaves)
-      connector = verbosity and tufts.values.any? {|t| t.length > 2} ? ';' : ','
+      connector = (verbosity and tufts.values.any? {|t| t.length > 2}) ? ';' : ','
       first_tuft = tufts.shift
       result << tufts.map { |tuft| summarize_tuft(tuft, conjugation, verbosity, options) }.unshift(summarize_tuft(first_tuft, conjugation, verbosity, options.merge(:capitalize_anonymous => true))).to_sentence(:words_connector => "#{connector} ", :last_word_connector => "#{connector} and ")
     end
