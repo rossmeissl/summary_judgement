@@ -10,6 +10,7 @@ begin
     gem.email = "andy@rossmeissl.net"
     gem.homepage = "http://github.com/rossmeissl/summary_judgement"
     gem.authors = ["Andy Rossmeissl"]
+    gem.add_dependency 'verbs', '>= 2.0.3'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
