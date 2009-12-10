@@ -1,6 +1,6 @@
 class String
   def indefinite_article
-    if WORDS_WITH_INITIAL_VOWELS_THAT_ACT_LIKE_WORDS_WITH_INITIAL_CONSONANTS.include? first_word.first_term
+    if WORDS_WITH_INITIAL_VOWELS_THAT_ACT_LIKE_WORDS_WITH_INITIAL_CONSONANTS.include? first_word.first_term.downcase
       INDEFINITE_ARTICLES[:consonant]
     elsif VOWELS.include? first.downcase
       INDEFINITE_ARTICLES[:vowel]
@@ -25,7 +25,7 @@ class String
     split('-').first
   end
   
-  WORDS_WITH_INITIAL_VOWELS_THAT_ACT_LIKE_WORDS_WITH_INITIAL_CONSONANTS = %w(one)
+  WORDS_WITH_INITIAL_VOWELS_THAT_ACT_LIKE_WORDS_WITH_INITIAL_CONSONANTS = %w(one united)
   INDEFINITE_ARTICLES = { :vowel => 'an', :consonant => 'a'}
   VOWELS = %w(a e i o u)
 end

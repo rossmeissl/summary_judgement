@@ -95,10 +95,11 @@ module SummaryJudgement
         when TrueClass
           options[:person] ||= :third
         end
-        result << Verbs::Conjugator.conjugate(self.class.summary.predicate, options.slice(:person, :subject, :tense, :plurality)).to_s.humanize
+        result << Verbs::Conjugator.conjugate(self.class.summary.predicate, options.slice(:person, :subject, :tense, :plurality)).to_s
+        results = result.humanize unless options[:subject].is_a?(String)
         result << ' '
       end
-      result << self.class.summary.class.render(self.class.summary.default, self).with_indefinite_article
+      result << self.class.summary.class.render(self.class.summary.default, self).with_indefinite_article(!conjugation)
     end
     
     def organize_leaves(*leaves)
