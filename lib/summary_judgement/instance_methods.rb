@@ -79,7 +79,7 @@ module SummaryJudgement
       tufts = organize_leaves(*leaves)
       first_tuft = tufts.shift
       connector = verbosity ? ';' : ','
-      result << tufts.map { |tuft| summarize_tuft(tuft, conjugation, verbosity, options) }.unshift(summarize_tuft(first_tuft, conjugation, verbosity, options.merge(:capitalize_anonymous => true))).to_sentence(:words_connector => "#{connector} ", :last_word_connector => "#{connector} and")
+      result << tufts.map { |tuft| summarize_tuft(tuft, conjugation, verbosity, options) }.unshift(summarize_tuft(first_tuft, conjugation, verbosity, options.merge(:capitalize_anonymous => true))).to_sentence(:words_connector => "#{connector} ", :last_word_connector => "#{connector} and ")
     end
 
     def summarize_as_bare_branch(options = {})
