@@ -95,11 +95,27 @@ module SummaryJudgement
         when TrueClass
           options[:person] ||= :third
         end
-        result << Verbs::Conjugator.conjugate(self.class.summary.predicate, options.slice(:person, :subject, :tense, :plurality)).to_s
-        results = result.humanize unless options[:subject].is_a?(String)
-        result << ' '
       end
-      result << self.class.summary.class.render(self.class.summary.default, self).with_indefinite_article(!conjugation)
+      if placeholder = self.class.summary.default
+        if conjugation
+          result << Verbs::Conjugator.conjugate(self.class.summary.predicate, options.slice(:person, :subject, :tense, :plurality)).to_s
+          results = result.humanize unless options[:subject].is_a?(String)
+          result << ' '
+        end
+        result << self.class.summary.class.render(placeholder, self).with_indefinite_article(!conjugation)
+      elsif twigs = children.flatten.select(&:children)
+        if conjugation and options[:subject]
+          result << case options[:subject]
+          when String
+            options[:subject]
+          when Symbol, TrueClass
+            Verbs::Conjugator.subject(options.slice(:person, :plurality)).humanize
+          end
+          result << ' '
+        end
+        result << twigs.map { |t| t.summary options.merge(:subject => false, :conjugate => conjugation) }.to_sentence
+      end
+      result
     end
     
     def organize_leaves(*leaves)

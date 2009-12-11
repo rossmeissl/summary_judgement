@@ -13,6 +13,8 @@ class TestSummaryJudgement < Test::Unit::TestCase
     @anne = Librarian.new
     @seamus = Enthusiast.new
     @new_releases = Shelf.new # empty!
+    @new_magazines = Rack.new # empty!
+    @browsing_section = Catalog.new @new_releases, @new_magazines
   end
   
   def test_setup
@@ -95,5 +97,9 @@ class TestSummaryJudgement < Test::Unit::TestCase
   def test_conjugated_summary_with_multiple_verbs
     assert_equal 'I have read 2 books and have skimmed 1 magazine', @catalog.summary(:conjugate => :first, :subject => true, :aspect => :perfect)
     assert_equal 'I have read a novel by William Gibson and an illustrated childrens book by Maurice Sendak and have skimmed a magazine issue from December 2009', @catalog.summary(:conjugate => :first, :subject => true, :aspect => :perfect, :verbose => true)
+  end
+  
+  def test_delegated_placeholders
+    assert_equal 'You have an empty shelf and have an empty rack', @browsing_section.summary(:conjugate => :second, :subject => true)
   end
 end
